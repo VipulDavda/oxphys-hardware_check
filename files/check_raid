@@ -1,0 +1,13 @@
+#!/bin/bash
+omreport="/opt/dell/srvadmin/bin/omreport"
+
+status=0;
+IFS=$'\n';
+for i in `$omreport storage pdisk controller=0 | grep "^Status "` ; do echo $i | grep Ok >/dev/null || status=1; done
+if [ $status == 1 ]; then echo Disk failure;exit 2;fi 
+testing=`$omreport storage pdisk controller=0 | grep "^State"    | grep -v Online`
+if [ `echo $testing | wc -m` -gt 1 ]; then echo $testing && exit 1; fi
+
+echo disk OK
+exit 0
+

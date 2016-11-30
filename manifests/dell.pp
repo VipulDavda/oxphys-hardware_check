@@ -1,5 +1,6 @@
 class hardware_check::dell () inherits hardware_check::params {
- 
+        
+
   file { 'dell-omsa-repository':
           source     => "puppet:///modules/${module_name}/dell-omsa-repository.repo",
           path       => '/etc/yum.repos.d/dell-omsa-repository.repo',
@@ -59,15 +60,48 @@ class hardware_check::dell () inherits hardware_check::params {
     require => Package['nrpe'],
     notify  => Service['nrpe'],
    }
+   
+   file { "${nrpe_cfg_dir}/check_raid.cfg":
+    content => template('hardware_check/check_raid.cfg'),
+    owner   => root,
+    group   => root,
+    mode    => '0755',
+    require => Package['nrpe'],
+    notify  => Service['nrpe'],
+   }
+   
+   file { "${plugin_dir}/check_raid":
+    source  => "puppet:///modules/${module_name}/check_raid",
+    owner   => root,
+    group   => root,
+    mode    => '0755',
+    require => Package['nrpe'],
+    notify  => Service['nrpe'],
+   }
+  
  
   @@nagios_service { "check_hardware${::fqdn}":
-    check_command       => 'check_nrpe!check_hardware',
-    host_name           => $::fqdn,
-    servicegroups       => 'hardware',
-    service_description => 'Hardware Check',
-    use                 => 'hourly-service',
-    target              => "/etc/nagios/nagios_services.d/${::fqdn}.cfg",
+    check_command           => 'check_nrpe!check_hardware',
+    host_name               => $::fqdn,
+    servicegroups           => 'hardware',
+    service_description     => 'Hardware Check',
+    use                     => '12hour-service',
+    target                  => "/etc/nagios/nagios_services.d/${::fqdn}.cfg",
+    notifications_enabled   => '0',
+    tag                     => $nagios_server
   }
+
+  @@nagios_service { "check_raid${::fqdn}":
+    check_command           => 'check_nrpe!check_raid',
+    host_name               => $::fqdn,
+    servicegroups           => 'hardware',
+    service_description     => 'Raid Check',
+    use                     => 'hourly-service',
+    notifications_enabled   => '0',
+    target                  => "/etc/nagios/nagios_services.d/${::fqdn}.cfg",
+    tag                     => $nagios_server
+  }
+
  }
 
  
