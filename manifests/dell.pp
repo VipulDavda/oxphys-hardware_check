@@ -5,9 +5,9 @@ class hardware_check::dell () inherits hardware_check::params {
           source     => "puppet:///modules/${module_name}/dell-omsa-repository.repo",
           path       => '/etc/yum.repos.d/dell-omsa-repository.repo',
           ensure     => present,
-          mode       => 0444,
-          owner      => root,
-          group      => root,
+          mode       => '0444',
+          owner      => 'root',
+          group      => 'root',
        }
 
   # Its a bug with openmanage software http://www.dell.com/support/article/us/en/19/SLN266217/EN
@@ -15,9 +15,9 @@ class hardware_check::dell () inherits hardware_check::params {
           source     => "puppet:///modules/${module_name}/CheckSystemType",
           path       => '/opt/dell/srvadmin/sbin/CheckSystemType',
           ensure     => present,
-          mode       => 0755,
-          owner      => root,
-          group      => root,
+          mode       => '0755',
+          owner      => 'root',
+          group      => 'root',
           subscribe  => Package['srvadmin-omcommon'],
        }
      
@@ -43,8 +43,8 @@ class hardware_check::dell () inherits hardware_check::params {
   if $hardware_auto_nagios_enable { 
   file { "${plugin_dir}/check_openmanage":
     source  => "puppet:///modules/${module_name}/check_openmanage",
-    owner   => root,
-    group   => root,
+    owner   => 'root',
+    group   => 'root',
     mode    => '0755',
     require => Package['nrpe'],
     notify  => Service['nrpe'],
@@ -54,8 +54,8 @@ class hardware_check::dell () inherits hardware_check::params {
   
   file { "${nrpe_cfg_dir}/check_hardware.cfg":
     content => template('hardware_check/check_hardware.cfg'),
-    owner   => root,
-    group   => root,
+    owner   => 'root',
+    group   => 'root',
     mode    => '0755',
     require => Package['nrpe'],
     notify  => Service['nrpe'],
@@ -63,8 +63,8 @@ class hardware_check::dell () inherits hardware_check::params {
    
    file { "${nrpe_cfg_dir}/check_raid.cfg":
     content => template('hardware_check/check_raid.cfg'),
-    owner   => root,
-    group   => root,
+    owner   => 'root',
+    group   => 'root',
     mode    => '0755',
     require => Package['nrpe'],
     notify  => Service['nrpe'],
@@ -72,8 +72,8 @@ class hardware_check::dell () inherits hardware_check::params {
    
    file { "${plugin_dir}/check_raid":
     source  => "puppet:///modules/${module_name}/check_raid",
-    owner   => root,
-    group   => root,
+    owner   => 'root',
+    group   => 'root',
     mode    => '0755',
     require => Package['nrpe'],
     notify  => Service['nrpe'],
