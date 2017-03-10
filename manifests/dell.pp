@@ -87,7 +87,7 @@ class hardware_check::dell () inherits hardware_check::params {
     service_description     => 'Hardware Check',
     use                     => '12hour-service',
     target                  => "/etc/nagios/nagios_services.d/${::fqdn}.cfg",
-    notifications_enabled   => '0',
+    notifications_enabled   => $check_hardware_notification,
     tag                     => $nagios_server
   }
 
@@ -97,7 +97,7 @@ class hardware_check::dell () inherits hardware_check::params {
     servicegroups           => 'hardware',
     service_description     => 'Raid Check',
     use                     => 'hourly-service',
-    notifications_enabled   => '0',
+    notifications_enabled   => $check_raid_notification,
     target                  => "/etc/nagios/nagios_services.d/${::fqdn}.cfg",
     tag                     => $nagios_server
   }
