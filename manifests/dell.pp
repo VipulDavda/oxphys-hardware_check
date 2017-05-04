@@ -41,6 +41,7 @@ class hardware_check::dell () inherits hardware_check::params {
   $plugin_dir = '/usr/lib64/nagios/plugins'
   $nrpe_cfg_dir = '/etc/nrpe.d'
   if $hardware_auto_nagios_enable { 
+  
   file { "${plugin_dir}/check_openmanage":
     source  => "puppet:///modules/${module_name}/check_openmanage",
     owner   => 'root',
