@@ -1,4 +1,6 @@
 class hardware_check::lenovo () inherits hardware_check::params {
+
+    if ($facts['disks']['sda']['model'])== /MR*/ {
    
     file { "/opt/MegaRAID":
        source => "puppet:///modules/$module_name/MegaRAID",
@@ -42,6 +44,6 @@ file { "${plugin_dir}/check_megaraid_sas":
   }
 
  }
-
+}
  
 }
