@@ -38,7 +38,7 @@
 class hardware_check {
   case $manufacturer  {
        /Dell.*/: { include hardware_check::dell }
-       LENOVO  : { include hardware_check::lenovo }
+       /LENOVO/  : { include hardware_check::lenovo }
        default : { notify {"Manufacturer not supported for hardware_check": } }
 
   }
