@@ -35,7 +35,7 @@ file { "${plugin_dir}/check_megaraid_sas":
   @@nagios_service { "check_raid${::fqdn}":
     check_command           => 'check_nrpe!check_megaraid_sas',
     host_name               => $::fqdn,
-    servicegroups           => 'hardware',
+    servicegroups           => 'raid',
     service_description     => 'Raid Check',
     use                     => 'hourly-service',
     notifications_enabled   => $check_raid_notification,
