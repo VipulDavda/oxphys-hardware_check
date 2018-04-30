@@ -2,11 +2,18 @@ class hardware_check::lenovo () inherits hardware_check::params {
 
  #   if ($facts['disks']['sda']['model'])== /MR*/ {
    
-    file { "/opt/MegaRAID":
+ file { "/opt/MegaRAID":
        source => "puppet:///modules/$module_name/MegaRAID",
        recurse => true
-      }
-     
+   }
+   
+   file {'/etc/sudoers.d/sudo_megaraid' :
+       mode    => '0644',
+       owner   => 'root',
+       group   => 'root',
+       content => "NRPE     ALL=(ALL)       NOPASSWD: /usr/lib64/nagios/plugins/check_megaraid_sas\n"
+    }
+ 
 
   ### setup nagios plugin
   $plugin_dir = '/usr/lib64/nagios/plugins'
