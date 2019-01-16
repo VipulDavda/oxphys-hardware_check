@@ -32,7 +32,7 @@ class hardware_check::dell () inherits hardware_check::params {
   
   service {'dataeng':
           ensure     => true,
-          enable     => true,
+          enable     => false,
           hasstatus  => true,
           hasrestart => true,
           subscribe  => Package['srvadmin-storageservices', 'srvadmin-omcommon'], 
