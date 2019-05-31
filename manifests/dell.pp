@@ -29,14 +29,14 @@ class hardware_check::dell () inherits hardware_check::params {
           ensure     => installed,
           require    => File['dell-omsa-repository'],
        }
-  
-  service {'dataeng':
-          ensure     => true,
-          enable     => false,
-          hasstatus  => true,
-          hasrestart => true,
-          subscribe  => Package['srvadmin-storageservices', 'srvadmin-omcommon'], 
-          }  
+  # this needs to be fixed properly
+  #service {'dataeng':
+  #       ensure     => true,
+  #       enable     => false,
+  #       hasstatus  => true,
+  #       hasrestart => true,
+  #       subscribe  => Package['srvadmin-storageservices', 'srvadmin-omcommon'], 
+  #       }  
   ### setup nagios plugin
   $plugin_dir = '/usr/lib64/nagios/plugins'
   $nrpe_cfg_dir = '/etc/nrpe.d'
